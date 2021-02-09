@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EmployeeDao implements Employeerepo {
@@ -18,6 +19,7 @@ public class EmployeeDao implements Employeerepo {
 
     @Override
     public List<Employee> getEmployeeList() {
+        System.out.println("In get employee...");
         String sql="Select * from employee";
         List<Employee> list=jdbcTemplate.query(sql,
                 new BeanPropertyRowMapper(Employee.class));
@@ -46,5 +48,13 @@ public class EmployeeDao implements Employeerepo {
         String sql="update employee set city=? where id=?";
         jdbcTemplate.update(sql,new Object[]{employee.getCity(),employee.getId()});
         return "Employee updated";
+    }
+
+    @Override
+    public List<Map<String, Object>> getCombinedData() {
+        String sql="select a.id,a.name,a.city,b.name as deptName from employee a,department b " +
+                "where a.dept_id=b.id";
+        List<Map<String,Object>> list=jdbcTemplate.queryForList(sql);
+        return list;
     }
 }

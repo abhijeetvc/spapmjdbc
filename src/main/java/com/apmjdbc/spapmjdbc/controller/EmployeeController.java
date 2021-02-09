@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmployeeController {
@@ -32,6 +33,11 @@ public class EmployeeController {
     public String updateEmployee(@RequestBody Employee employee){
 
         return employeeDao.updateEmployee(employee);
+    }
+
+    @GetMapping("/joindata")
+    public List<Map<String,Object>> getJoinData(){
+        return employeeDao.getCombinedData();
     }
 
 }
